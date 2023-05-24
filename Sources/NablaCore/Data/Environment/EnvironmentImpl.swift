@@ -20,7 +20,7 @@ class EnvironmentImpl: Environment {
     }
     
     var graphqlHttpUrl: URL {
-        serverUrl.appendingPathComponent(graphqlPath)
+        networkConfiguration.webSocketUrl ?? serverUrl.appendingPathComponent(graphqlPath)
     }
     
     var graphqlWebSocketUrl: URL {
@@ -31,7 +31,7 @@ class EnvironmentImpl: Environment {
 //        components.path = networkConfiguration.path
 //        // swiftlint:disable:next force_unwrapping
 //        return components.url!.appendingPathComponent(graphqlPath)
-        return networkConfiguration.webSocketUrl ??  networkConfiguration.baseUrl.appendingPathComponent(graphqlPath)
+        networkConfiguration.webSocketUrl ??  networkConfiguration.baseUrl.appendingPathComponent(graphqlPath)
     }
     
     var languageCode: String {
