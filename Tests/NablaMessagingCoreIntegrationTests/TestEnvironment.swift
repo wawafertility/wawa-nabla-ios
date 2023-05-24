@@ -13,7 +13,7 @@ struct TestEnvironment {
 //        let scheme = "http"
 //        let port: Int? = 8080
 //        let path = ""
-//        let session: URLSession
+        let session: URLSession
     }
     
     let nablaClient: NablaClient
