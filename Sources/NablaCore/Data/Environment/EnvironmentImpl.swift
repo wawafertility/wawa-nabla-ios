@@ -5,14 +5,13 @@ class EnvironmentImpl: Environment {
     let version = "1.1.3"
     
     var serverUrl: URL {
-        return networkConfiguration.baseUrl
-//        var components = URLComponents()
-//        components.host = networkConfiguration.domain
-//        components.scheme = networkConfiguration.scheme
-//        components.port = networkConfiguration.port
-//        components.path = networkConfiguration.path
-//        // swiftlint:disable:next force_unwrapping
-//        return components.url!
+        var components = URLComponents()
+        components.host = networkConfiguration.domain
+        components.scheme = networkConfiguration.scheme
+        components.port = networkConfiguration.port
+        components.path = networkConfiguration.path
+        // swiftlint:disable:next force_unwrapping
+        return components.url!
     }
     
     var graphqlPath: String {
@@ -20,18 +19,20 @@ class EnvironmentImpl: Environment {
     }
     
     var graphqlHttpUrl: URL {
-        networkConfiguration.webSocketUrl ?? serverUrl.appendingPathComponent(graphqlPath)
+        serverUrl.appendingPathComponent(graphqlPath)
     }
     
     var graphqlWebSocketUrl: URL {
-//        var components = URLComponents()
-//        components.host = networkConfiguration.domain
-//        components.scheme = networkConfiguration.scheme == "https" ? "wss" : "ws"
-//        components.port = networkConfiguration.port
-//        components.path = networkConfiguration.path
-//        // swiftlint:disable:next force_unwrapping
-//        return components.url!.appendingPathComponent(graphqlPath)
-        networkConfiguration.webSocketUrl ??  networkConfiguration.baseUrl.appendingPathComponent(graphqlPath)
+        guard networkConfiguration.webSocketUrl == nil else {
+            return networkConfiguration.webSocketUrl!
+        }
+        var components = URLComponents()
+        components.host = networkConfiguration.domain
+        components.scheme = networkConfiguration.scheme == "https" ? "wss" : "ws"
+        components.port = networkConfiguration.port
+        components.path = networkConfiguration.path
+        // swiftlint:disable:next force_unwrapping
+        return components.url!.appendingPathComponent(graphqlPath)
     }
     
     var languageCode: String {
